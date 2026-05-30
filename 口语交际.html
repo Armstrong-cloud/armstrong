@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>口语交际 请你帮个忙</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            background-color: #f0f8ff;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        .content-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #ccc;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .content-box h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        .content-box p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .tip {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        /* 隐藏SDK默认右下角悬浮按钮 */
+        .coze-webchat-float-button {
+            display: none !important;
+        }
+
+        /* 居中圆形按钮 可爱风格 */
+        .center-chat-btn {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: #57a8ff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px auto;
+            box-shadow: 0 4px 12px rgba(87, 168, 255, 0.4);
+            transition: transform 0.2s;
+        }
+        .center-chat-btn:hover {
+            transform: scale(1.08);
+        }
+        .center-chat-btn svg {
+            width: 48px;
+            height: 48px;
+        }
+
+        /* 聊天弹窗遮罩 */
+        .chat-mask {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        #coze-chat {
+            width: 100%;
+            max-width: 420px;
+            height: 600px;
+            border-radius: 12px;
+            background: #fff;
+        }
+        .tip-text {
+            text-align: center !important;
+            color: #666;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">一年级口语交际：请你帮个忙</h1>
+
+    <!-- 知识点区域 -->
+    <div class="content-box">
+        <h2>课堂小知识</h2>
+        <p>小朋友们，遇到困难可以礼貌地请别人帮忙哦！</p >
+        <div class="tip">
+            <p>✅ 常用礼貌用语：请、麻烦你、可以吗、谢谢</p >
+        </div>
+        <p>标准说法示例：</p >
+        <p>1. 请问，能借我一支笔吗？谢谢！</p >
+        <p>2. 麻烦你，帮我捡一下东西好吗？</p >
+        <p>3. 请问老师，这道题我不会，您能教教我吗？</p >
+    </div>
+
+    <!-- 中间可爱圆形图标区域 -->
+    <div class="content-box">
+        <h2>智能对话练习区</h2>
+        <button class="center-chat-btn" onclick="openChat()">
+            <!-- 可爱卡通对话气泡图标 -->
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 11.5C21 16.1944 16.9706 20 12 20C10.8032 20 9.66671 19.7719 8.63722 19.3641L3 21L4.63589 16.3628C3.42529 15.3333 2.5 13.8874 2.5 12.25C2.5 7.55558 6.52944 3.75 11.5 3.75C16.4706 3.75 21 7.55558 21 11.5Z" fill="#ffffff"/>
+                <circle cx="8" cy="11" r="1.5" fill="#3498db"/>
+                <circle cx="12" cy="11" r="1.5" fill="#3498db"/>
+                <circle cx="16" cy="11" r="1.5" fill="#3498db"/>
+            </svg>
+        </button>
+        <p class="tip-text">点击图标开始口语练习</p >
+    </div>
+
+    <!-- 聊天弹窗 -->
+    <div class="chat-mask" id="chatMask">
+        <div id="coze-chat"></div>
+    </div>
+
+    <!-- Coze SDK -->
+    <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+    <script>
+        const chatClient = new CozeWebSDK.WebChatClient({
+            config: {
+                bot_id: '7645492827543699471',
+                container: '#coze-chat'
+            },
+            componentProps: {
+                title: '口语交际练习'
+            },
+            auth: {
+                type: 'token',
+                token: 'pat_mn4T7vBjV3GpivhJICBMj00qW564nk5ikhGeg0Atp8HL51S1bO3iCiQD8YkWc0Bu',
+                onRefreshToken: function () {
+                    return 'pat_mn4T7vBjV3GpivhJICBMj00qW564nk5ikhGeg0Atp8HL51S1bO3iCiQD8YkWc0Bu'
+                }
+            },
+            ui: {
+                asstBtn: { isNeed: false }
+            }
+        });
+
+        function openChat() {
+            document.getElementById('chatMask').style.display = 'flex';
+            chatClient.showChatBot();
+        }
+
+        document.getElementById('chatMask').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+                chatClient.hideChatBot();
+            }
+        });
+    </script>
+</body>
+</html>
